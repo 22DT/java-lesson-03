@@ -49,7 +49,55 @@ public class SnakeGameWithoutTails {
      * 만약 사용자의 입력이 종료(0)였다면, false값을 반환하여 게임을 종료해야 합니다.
      */
     private static boolean nextDirection(String keyword) {
-        throw new RuntimeException("이 코드 라인을 지우고, 이곳에서 작성하십시오.");
+        if(keyword.equals("0")){
+            return false;
+        }
+        else{
+            int nextX= location.getX(), nextY= location.getY();
+            System.out.println("location.getX() = " + location.getX());
+            System.out.println("location.getY() = " + location.getY());
+            if(keyword.equals("r")){
+                // 우측
+                nextY=location.getY()+1;
+            }
+            else if(keyword.equals("l")){
+                // 좌측
+                nextY=location.getY()-1;
+            }
+            else if(keyword.equals("u")){
+                // 위
+                nextX= location.getX()-1;
+            }
+            else if(keyword.equals("d")){
+                // 아래
+                nextX= location.getX()+1;
+            }
+            // 인덱스 유요하면
+            if(0<=nextX && nextX<BOARD_SIZE && 0<=nextY && nextY <BOARD_SIZE){
+                System.out.println("nextX = " + nextX);
+                System.out.println("nextY = " + nextY);
+                // 뱀이면
+                if(board[nextX][nextY]==1){
+                    // do nothing
+                }
+                else if(board[nextX][nextY]==2){
+                    // 아이템이면
+                    score++;
+                    board[nextX][nextY]=0;
+
+                    location=new SnakeLocation(nextX, nextY);
+
+                }
+                else if(board[nextX][nextY]==0){
+                    // 빈칸
+
+                    location=new SnakeLocation(nextX, nextY);
+
+                }
+            }
+        }
+
+        return true;
     }
 
     private static void printBoard() {
@@ -85,6 +133,8 @@ public class SnakeGameWithoutTails {
             int retry = 0;
             while (retry < 5) {
                 SnakeLocation locate = new SnakeLocation((int) (RANDOM.nextDouble() * (BOARD_SIZE - 1)), (int) (RANDOM.nextDouble() * (BOARD_SIZE - 1)));
+               /* System.out.println("locate.getX() = " + locate.getX());
+                System.out.println("locate.getY() = " + locate.getY());*/
                 if (board[locate.getX()][locate.getY()] != 0) {
                     retry++;
                     continue;
